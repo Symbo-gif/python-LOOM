@@ -18,8 +18,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "loom"
-version = "0.0.1"
-description = "Native Python mathematical computing framework - replaces NumPy, SymPy, SciPy"
+dynamic = ["version"]
+description = "Native Python mathematical computing framework - replaces NumPy, SymPy, SciPy with zero dependencies"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 authors = [{name = "LOOM Contributors"}]
@@ -27,7 +27,7 @@ requires-python = ">=3.9"
 dependencies = []  # ZERO external dependencies - this is a core design principle
 
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
@@ -54,12 +54,15 @@ cython = ["cython>=0.29"]
 cuda = ["cuda-python>=11.0"]
 
 [project.urls]
-Homepage = "https://github.com/loom-math/loom"
-Documentation = "https://loom.readthedocs.io"
-Repository = "https://github.com/loom-math/loom"
+Homepage = "https://github.com/Symbo-gif/python-LOOM"
+Repository = "https://github.com/Symbo-gif/python-LOOM"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["loom*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "loom.__version__.__version__"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
