@@ -44,15 +44,15 @@ test:
 	pytest tests/ -v --tb=short
 
 test-cov:
-	pytest tests/ --cov=src/loom --cov-report=html --cov-report=term
+	pytest tests/ --cov=loom --cov-report=html --cov-report=term
 
 # Code quality
 lint:
-	mypy src/loom
+	mypy loom
 	@echo "Linting complete"
 
 format:
-	black src/loom tests/
+	black loom tests/
 
 # Performance
 benchmark:
