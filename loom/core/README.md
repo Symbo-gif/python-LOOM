@@ -7,7 +7,7 @@
 | Component | Status | Description |
 |-----------|--------|-------------|
 | `tensor.py` | ✅ Complete | Tensor class with DAG evaluation, NumericBuffer storage |
-| `dtype.py` | ✅ Complete | DType enum, parse_dtype (default: float64) |
+| `dtype.py` | ✅ Complete | DType enum, parse_dtype (default: float32) |
 | `shape.py` | ✅ Complete | Immutable Shape with broadcasting |
 | `dag.py` | ✅ Integrated | DAG evaluation built into tensor.py |
 
@@ -31,20 +31,20 @@
 - Handles scalar, 1D→2D, row×column expansion.
 - Row-major (C-style) indexing with correct strides.
 
-### Default DType (Phase 8)
-- Changed from `float32` to `float64` for scientific computing parity.
-- Matches NumPy/SciPy default behavior.
+### Default DType
+- Default dtype is `float32` for memory efficiency.
+- Can be configured via `loom.config.set_dtype('float64')` for scientific computing parity.
 
 ## Factory Functions
 
 ```python
-import loom as tf
+import loom as lm
 
-a = tf.array([[1, 2], [3, 4]])  # From nested list
-z = tf.zeros((2, 3))            # 2x3 zeros
-o = tf.ones((3,))               # 1D ones
-f = tf.full((2, 2), 5.0)        # Filled with 5.0
-I = tf.eye(3)                   # 3x3 identity
+a = lm.array([[1, 2], [3, 4]])  # From nested list
+z = lm.zeros((2, 3))            # 2x3 zeros
+o = lm.ones((3,))               # 1D ones
+f = lm.full((2, 2), 5.0)        # Filled with 5.0
+I = lm.eye(3)                   # 3x3 identity
 ```
 
 ## Test Coverage

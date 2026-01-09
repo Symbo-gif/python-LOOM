@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-complex(1.0, 0.0)
 import pytest
 import loom as tf
 from loom.signal import fft, ifft, convolve, convolve2d

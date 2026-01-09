@@ -16,7 +16,7 @@
 ## Usage Example
 
 ```python
-import loom as tf
+import loom as lm
 from loom.interpolate import interp1d
 
 x = [0, 1, 2, 3]

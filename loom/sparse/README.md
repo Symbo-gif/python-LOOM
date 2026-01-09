@@ -18,7 +18,7 @@
 ## Usage Example
 
 ```python
-import loom as tf
+import loom as lm
 from loom.sparse import COOMatrix
 
 # Create from coordinates
@@ -26,6 +26,6 @@ coo = COOMatrix(data=[1, 2], row=[0, 1], col=[1, 0], shape=(2, 2))
 csr = coo.to_csr()
 
 # Sparse-Dense product
-v = tf.array([10, 20])
+v = lm.array([10, 20])
 res = csr @ v  # [40.0, 10.0]
 ```

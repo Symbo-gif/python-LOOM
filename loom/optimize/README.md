@@ -25,7 +25,7 @@ This module provides native Python implementations for various optimization algo
 Newton's method and gradient-based optimizers are designed to work with loom's auto-differentiation engine.
 
 ```python
-import loom as tf
+import loom as lm
 from loom.optimize import minimize
 
 def rosen(x):

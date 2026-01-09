@@ -35,8 +35,8 @@ p = gammainc(2.0, 1.0)  # P(2, 1) ≈ 0.264
 q = gammaincc(2.0, 1.0)  # Q(2, 1) ≈ 0.736
 
 # Tensor inputs supported
-import loom as tf
-t = tf.array([1.0, 2.0, 3.0])
+import loom as lm
+t = lm.array([1.0, 2.0, 3.0])
 g_vec = gamma(t)  # [1.0, 1.0, 2.0]
 ```
 

@@ -23,15 +23,15 @@ import loom as tf
 # Async execution
 daemon = ComputationDaemon()
 daemon.start()
-tid = daemon.submit(lambda x, y: x + y, tf.ones(5), tf.ones(5))
+tid = daemon.submit(lambda x, y: x + y, lm.ones(5), lm.ones(5))
 res = daemon.get_result(tid)
 
 # Recipe
 superv = Supervisor()
 recipe = {
     "steps": [
-        {"name": "s1", "op": "add", "args": [tf.array([1]), tf.array([2])]},
-        {"name": "s2", "op": "mul", "args": ["$s1", tf.array([10])]}
+        {"name": "s1", "op": "add", "args": [lm.array([1]), lm.array([2])]},
+        {"name": "s2", "op": "mul", "args": ["$s1", lm.array([10])]}
     ]
 }
 results = superv.run_recipe(recipe) # {'s1': 3, 's2': 30}

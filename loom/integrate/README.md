@@ -22,7 +22,7 @@ This module provides native Python implementations for numerical integration and
 ## Example: Lorenz System
 
 ```python
-import loom as tf
+import loom as lm
 from loom.integrate import solve_ivp
 
 def lorenz(t, state, sigma=10, rho=28, beta=8/3):

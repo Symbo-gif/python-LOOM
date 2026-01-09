@@ -19,11 +19,11 @@ The `.tfdata` format is a simple JSON-based serialization:
 ## Usage Example
 
 ```python
-import loom as tf
+import loom as lm
 from loom.io import save, load
 
 # Save
-a = tf.array([[1, 2], [3, 4]])
+a = lm.array([[1, 2], [3, 4]])
 save('my_tensor.tfdata', a)
 
 # Load

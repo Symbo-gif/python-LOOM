@@ -19,31 +19,31 @@
 ## Usage Example
 
 ```python
-import loom as tf
+import loom as lm
 from loom.field import FieldTensor, compress_eigen, decompress_eigen
 
 # 1D Field Sampling
-data_1d = tf.array([0, 1, 4, 9, 16])  # x^2 samples
+data_1d = lm.array([0, 1, 4, 9, 16])  # x^2 samples
 ft_1d = FieldTensor(data_1d)
 val = ft_1d.sample([2.5])  # Interpolates between 4 and 9
 
 # 2D Field Sampling (bilinear interpolation)
-data_2d = tf.array([[0, 1], [2, 3]])
+data_2d = lm.array([[0, 1], [2, 3]])
 ft_2d = FieldTensor(data_2d)
 val = ft_2d.sample([0.5, 0.5])  # Center value (~1.5)
 
 # 3D Field Sampling (trilinear interpolation)
-data_3d = tf.randn((10, 10, 10))
+data_3d = lm.randn((10, 10, 10))
 ft_3d = FieldTensor(data_3d)
 val = ft_3d.sample([5.5, 3.2, 7.8])  # 3D interpolation
 
 # 4D+ Field Sampling (N-linear interpolation)
-data_4d = tf.randn((5, 5, 5, 5))
+data_4d = lm.randn((5, 5, 5, 5))
 ft_4d = FieldTensor(data_4d)
 val = ft_4d.sample([2.1, 3.4, 1.7, 4.2])  # 4D interpolation
 
 # Compression
-data = tf.randn((100, 100))
+data = lm.randn((100, 100))
 compressed = compress_eigen(data, rank=10)  # Keep top 10 singular values
 restored = decompress_eigen(compressed)  # Approximate reconstruction
 ```

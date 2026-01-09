@@ -15,7 +15,7 @@ This module implements the symbolic mathematics engine for loom. It provides a n
 ## Usage
 
 ```python
-import loom as tf
+import loom as lm
 from loom.core.tensor import Symbol
 from loom.symbolic import integrate, solve
 

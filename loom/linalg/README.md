@@ -54,10 +54,10 @@
 ## Usage Examples
 
 ```python
-import loom as tf
+import loom as lm
 import loom.linalg as la
 
-A = tf.array([[1.0, 2.0], [3.0, 4.0]])
+A = lm.array([[1.0, 2.0], [3.0, 4.0]])
 
 # Decompositions
 P, L, U = la.lu(A)
@@ -70,11 +70,11 @@ sqrt_A = la.sqrtm(exp_A)
 log_exp_A = la.logm(exp_A)  # Roundtrip ≈ A
 
 # Outer product
-a = tf.array([1, 2, 3])
-b = tf.array([4, 5])
+a = lm.array([1, 2, 3])
+b = lm.array([4, 5])
 outer_ab = la.outer(a, b)  # 3×2 matrix
 
 # Rectangular LU (Phase 9)
-tall = tf.array([[1, 2], [3, 4], [5, 6], [7, 8]])  # 4×2
+tall = lm.array([[1, 2], [3, 4], [5, 6], [7, 8]])  # 4×2
 P, L, U = la.lu(tall)  # Works with rectangular matrices
 ```
