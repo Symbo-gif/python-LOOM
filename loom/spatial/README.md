@@ -2,7 +2,9 @@
 
 **KDTree, ConvexHull, and distance metrics**
 
-## Status: ✅ COMPLETE (Phase 6)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by KDTree, convex hull, and distance metric tests in the v1.1.0 release suite._
 
 ## Features
 

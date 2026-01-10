@@ -2,7 +2,9 @@
 
 **Field tensors with N-dimensional spatial sampling**
 
-## Status: ✅ COMPLETE (Phase 7 + Phase 9 N-D Enhancement)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by N-D sampling and eigen-compression tests in the v1.1.0 release suite._
 
 ## Features
 

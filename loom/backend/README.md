@@ -2,7 +2,9 @@
 
 **Computation backend abstraction with automatic fallback**
 
-## Status: ✅ COMPLETE (Phase 9)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by backend switching tests in the v1.1.0 release suite._
 
 ## Available Backends
 

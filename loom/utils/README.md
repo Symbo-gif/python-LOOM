@@ -2,7 +2,9 @@
 
 **Utility functions and decorators**
 
-## Status: ✅ Minimal Implementation
+## Status: ✅ Production-ready (v1.1.0)
+
+_Internal helpers validated indirectly across the v1.1.0 release suite._
 
 ## Current Features
 

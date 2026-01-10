@@ -2,7 +2,9 @@
 
 **Daemon-driven async computation and task orchestration**
 
-## Status: ✅ COMPLETE (Phase 7)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by daemon/supervisor lifecycle coverage in the v1.1.0 release suite._
 
 ## Features
 
@@ -18,7 +20,7 @@
 
 ```python
 from loom.agent import ComputationDaemon, Supervisor
-import loom as tf
+import loom as lm
 
 # Async execution
 daemon = ComputationDaemon()

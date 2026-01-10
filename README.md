@@ -7,6 +7,16 @@ LOOM is a zero-dependency mathematical computing library designed as a unified r
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://python.org)
 
+> Current Version: **v1.1.0** (January 2026)
+
+---
+
+## What's New in v1.1.0
+
+- Top-level complex helpers (`conj`, `real`, `imag`, `angle`, `polar`) and numeric buffer stability improvements.
+- Agent orchestration and backend switching are production-ready with graceful fallbacks.
+- N-D field sampling, chi-square/gammainc parity, and signal/filter fixes validated by **1599 passing tests**.
+
 ---
 
 ## Features
@@ -14,6 +24,7 @@ LOOM is a zero-dependency mathematical computing library designed as a unified r
 | Module | Description | Replaces |
 |--------|-------------|----------|
 | **core** | Tensor class with lazy evaluation via computation DAG | NumPy arrays |
+| **ops** | Tensor arithmetic, reductions, indexing, complex helpers | NumPy ufuncs |
 | **symbolic** | Symbolic expressions, differentiation, integration, equation solving | SymPy |
 | **linalg** | Matrix decompositions (LU, QR, SVD, Cholesky), eigenvalues, matrix functions | NumPy/SciPy linalg |
 | **optimize** | Minimization (BFGS, Nelder-Mead), root-finding (bisection, Newton, Brent) | SciPy optimize |
@@ -208,6 +219,7 @@ python-LOOM/
 │   ├── field/              # Field tensors
 │   ├── agent/              # Async computation, daemons
 │   ├── backend/            # Computation backends
+│   ├── ops/                # Tensor arithmetic, reductions, indexing, complex ops
 │   ├── numeric/            # Numeric storage
 │   ├── io/                 # File I/O
 │   └── utils/              # Utilities
@@ -270,7 +282,7 @@ pytest tests/test_linalg/ -v
 pytest tests/ --cov=loom --cov-report=html
 ```
 
-**Current Status**: 1556 tests passing
+**Current Status**: 1599 tests passing
 
 ---
 

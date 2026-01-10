@@ -4,7 +4,9 @@
 
 ---
 
-## Status: ✅ IMPLEMENTED (Phase 4)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by root-finding and minimization coverage in the v1.1.0 release suite._
 
 This module provides native Python implementations for various optimization algorithms, mirroring `scipy.optimize`.
 

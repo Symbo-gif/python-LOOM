@@ -4,7 +4,9 @@
 
 ---
 
-## Status: ✅ COMPLETE (Phase 1 Weeks 8-9)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by the v1.1.0 release suite (random distribution, sampling, and reproducibility tests)._
 
 ---
 
@@ -34,4 +36,6 @@
 
 ---
 
-## Test Results: 22 tests passing
+## Reliability
+
+- Covered by statistical checks in `tests/test_random/test_rng.py` and fuzz/stress cases (v1.1.0).

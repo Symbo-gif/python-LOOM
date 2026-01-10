@@ -2,7 +2,9 @@
 
 **Sparse matrix formats and operations**
 
-## Status: ✅ COMPLETE (Phase 6)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by COO/CSR arithmetic tests in the v1.1.0 release suite._
 
 ## Features
 

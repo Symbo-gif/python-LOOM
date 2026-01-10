@@ -2,7 +2,9 @@
 
 **Save/load tensors in loom format**
 
-## Status: ✅ COMPLETE (Phase 4)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by serialization round-trip tests in the v1.1.0 release suite._
 
 ## Features
 

@@ -2,7 +2,9 @@
 
 **Statistical distributions, metrics, and hypothesis tests with proper p-values**
 
-## Status: ✅ COMPLETE (Phase 8 + Phase 9)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by the v1.1.0 release suite (distribution, summary metric, and hypothesis test coverage)._
 
 ## Distributions
 

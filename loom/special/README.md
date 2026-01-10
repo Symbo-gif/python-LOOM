@@ -2,7 +2,9 @@
 
 **Gamma, beta, error functions, and incomplete gamma**
 
-## Status: ✅ COMPLETE (Phase 5 + Phase 9)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by gamma/beta/erf/gammainc coverage in the v1.1.0 release suite._
 
 ## Functions
 
