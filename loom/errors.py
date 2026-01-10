@@ -42,11 +42,55 @@ class loomError(Exception):
     pass
 
 
+# Alias for consistency (both naming conventions supported)
+LoomError = loomError
+
+
+# =============================================================================
+# NUMERICAL ERRORS
+# =============================================================================
+
+class NumericalError(loomError):
+    """
+    Raised when numerical operation is unstable or fails.
+    
+    Examples:
+        - Numerical overflow/underflow
+        - Ill-conditioned matrix warning
+        - Numerical precision loss
+    """
+    pass
+
+
+class SingularMatrixError(NumericalError):
+    """
+    Raised when matrix is singular or near-singular.
+    
+    Examples:
+        - Determinant is zero or near-zero
+        - Matrix cannot be inverted
+        - Linear system has no unique solution
+    """
+    pass
+
+
+class ConvergenceError(NumericalError):
+    """
+    Raised when iterative algorithm fails to converge.
+    
+    Examples:
+        - Maximum iterations exceeded
+        - Convergence criterion not met
+        - Oscillating solution
+    """
+    pass
+
+
 # =============================================================================
 # SHAPE AND TYPE ERRORS
 # =============================================================================
 
-class ShapeError(loomError):
+class ShapeError(loomError, ValueError):
     """
     Raised when tensor shapes are incompatible.
     
@@ -58,7 +102,7 @@ class ShapeError(loomError):
     pass
 
 
-class DTypeError(loomError):
+class DTypeError(loomError, TypeError):
     """
     Raised when data types are incompatible or invalid.
     
@@ -206,6 +250,34 @@ class FormatError(IOError):
         - Unknown file format
         - Version mismatch
         - Invalid header
+    """
+    pass
+
+
+# =============================================================================
+# AGENT SYSTEM ERRORS
+# =============================================================================
+
+class TaskError(loomError):
+    """
+    Raised when async task execution fails.
+    
+    Examples:
+        - Task timeout
+        - Task cancelled
+        - Task dependency failure
+    """
+    pass
+
+
+class RecipeError(loomError):
+    """
+    Raised when workflow recipe is invalid.
+    
+    Examples:
+        - Invalid recipe definition
+        - Missing required steps
+        - Circular dependency in workflow
     """
     pass
 
