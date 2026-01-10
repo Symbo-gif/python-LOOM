@@ -2,7 +2,9 @@
 
 **Optimized dense array storage using `array.array`**
 
-## Status: ✅ COMPLETE (Phase 8)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by buffer durability and dtype upgrade coverage in the v1.1.0 release suite._
 
 ## Features
 
@@ -14,14 +16,14 @@
 
 - **Integration with Tensor**:
     - `Tensor._dense_data` uses `NumericBuffer` for all numeric storage.
-    - Default dtype changed to `float64` for scientific computing parity.
+    - Default dtype remains `float32` (configurable via `loom.config.set_dtype('float64')` for parity workloads).
 
 ## Supported DTypes
 
 | DType | TypeCode | Description |
 |-------|----------|-------------|
-| `float32` | `f` | 32-bit float |
-| `float64` | `d` | 64-bit float (default) |
+| `float32` | `f` | 32-bit float (default) |
+| `float64` | `d` | 64-bit float |
 | `int32` | `i` | 32-bit integer |
 | `int64` | `q` | 64-bit integer |
 | `complex64` | twin `f` | 32-bit complex |

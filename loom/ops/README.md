@@ -4,14 +4,16 @@
 
 ---
 
-## Status
+## Status (v1.1.0 release)
 
 | Component | Status | Tests |
 |-----------|--------|-------|
-| `arithmetic.py` | ✅ Complete | 50 |
-| `reduction.py` | ✅ Complete | 40 |
-| `indexing.py` | ✅ Complete | 22 |
-| `complex_ops.py` | ✅ Complete | 14 |
+| `arithmetic.py` | ✅ Complete | Covered in v1.1.0 suite |
+| `reduction.py` | ✅ Complete | Covered in v1.1.0 suite |
+| `indexing.py` | ✅ Complete | Covered in v1.1.0 suite |
+| `complex_ops.py` | ✅ Complete | Covered in v1.1.0 suite |
+
+_Validated by arithmetic, reduction, indexing, and complex coverage in the v1.1.0 release suite._
 
 ---
 

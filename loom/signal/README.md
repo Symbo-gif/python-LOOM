@@ -2,7 +2,9 @@
 
 **FFT, convolution, digital filtering, and windowing**
 
-## Status: ✅ COMPLETE (Phase 5 + Phase 8)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by FFT, convolution, windowing, and filter tests in the v1.1.0 release suite._
 
 ## Features
 

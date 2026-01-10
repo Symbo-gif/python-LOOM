@@ -2,7 +2,9 @@
 
 **Complete Linear Algebra Suite**
 
-## Status: ✅ COMPLETE (Phase 2 + Phase 8 + Phase 9)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by the v1.1.0 release suite (1599 passing tests)._
 
 ## Decompositions
 

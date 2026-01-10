@@ -2,7 +2,9 @@
 
 **Spline, polynomial, and RBF interpolation**
 
-## Status: ✅ COMPLETE (Phase 5)
+## Status: ✅ Production-ready (v1.1.0)
+
+_Validated by interpolation regression and stress tests in the v1.1.0 release suite._
 
 ## Features
 
