@@ -78,3 +78,4 @@ Thumbs.db
 
 # Project specific
 *.tfdata
+benchmark_results.json

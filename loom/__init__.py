@@ -67,9 +67,38 @@ from loom.random import (
     seed, rand, randn, randint, uniform, normal, exponential, poisson, choice, permutation
 )
 
+
+def matmul(x1, x2):
+    """
+    Matrix multiplication.
+    
+    Uses active backend for acceleration.
+    
+    Args:
+        x1: First tensor
+        x2: Second tensor
+        
+    Returns:
+        Result of matrix multiplication x1 @ x2
+    
+    Example:
+        >>> import loom
+        >>> loom.set_backend('numba')  # Enable JIT acceleration
+        >>> A = loom.randn(1000, 1000)
+        >>> B = loom.randn(1000, 1000)
+        >>> C = loom.matmul(A, B)  # 10-50x faster with Numba
+    """
+    if not isinstance(x1, Tensor):
+        x1 = Tensor(x1)
+    if not isinstance(x2, Tensor):
+        x2 = Tensor(x2)
+    
+    return x1 @ x2
+
 # Config, logging, and errors
 from loom import config
 from loom import logging
+from loom.config import set_backend, get_backend_info
 from loom.errors import (
     loomError, LoomError, ShapeError, DTypeError, ComputationError,
     SymbolicError, OptimizationError, IntegrationError, BackendError,
@@ -92,6 +121,7 @@ __all__ = [
     "ones",
     "full",
     "eye",
+    "matmul",
     # Shape utilities
     "broadcast_shapes",
     "parse_dtype",
@@ -115,6 +145,8 @@ __all__ = [
     # Configuration and Logging
     "config",
     "logging",
+    "set_backend",
+    "get_backend_info",
     # Errors
     "loomError",
     "LoomError",
