@@ -22,23 +22,31 @@ ESTABLISHED FACTS:
 - Default backend is "cpu" (pure Python, always available)
 - Default dtype is "float32" for memory efficiency
 - Configuration can be modified at runtime
+- Backend auto-detection prioritizes: numba → cpu
 
-GOALS (not yet implemented):
-- Backend auto-detection (CPU → Cython → CUDA)
-- Persistent configuration via config file
+SUPPORTED BACKENDS:
+- "cpu": Pure Python (always available)
+- "numba": Numba JIT acceleration (optional, install numba)
+- "cython": Cython acceleration (optional, install loom[cython])
+- "cuda": GPU acceleration (optional, install cupy)
+- "auto": Automatically select best available backend
 """
 
-from typing import Literal
+from typing import Literal, Dict, Any, List
+
+# Type alias for backend names
+BackendType = Literal["auto", "cpu", "numba", "cython", "cuda"]
 
 # =============================================================================
 # BACKEND CONFIGURATION
 # =============================================================================
 
 # Default computation backend
-# Options: "cpu" (always available), "cython" (optional), "cuda" (optional)
-DEFAULT_BACKEND: Literal["cpu", "cython", "cuda"] = "cpu"
+# Options: "cpu" (always available), "numba" (optional), "cython" (optional), "cuda" (optional)
+DEFAULT_BACKEND: str = "cpu"
 
 # Backend availability flags (set at import time by backend/manager.py)
+NUMBA_AVAILABLE: bool = False
 CYTHON_AVAILABLE: bool = False
 CUDA_AVAILABLE: bool = False
 
@@ -90,32 +98,122 @@ DEBUG: bool = False
 # RUNTIME CONFIGURATION FUNCTIONS
 # =============================================================================
 
-def set_backend(backend: Literal["cpu", "cython", "cuda"]) -> None:
+def set_backend(backend: BackendType = "auto") -> str:
     """
     Set the default computation backend.
     
     Args:
-        backend: One of "cpu", "cython", "cuda"
+        backend: One of "auto", "cpu", "numba", "cython", "cuda"
+            "auto": Automatically select best available backend
+                    Priority order: numba → cpu
+            "cpu": Force pure Python (no acceleration, always available)
+            "numba": Force Numba JIT (raises if unavailable)
+            "cython": Force Cython (raises if unavailable)
+            "cuda": Force CUDA GPU (raises if unavailable)
+    
+    Returns:
+        Name of the activated backend
     
     Raises:
-        ValueError: If backend is not available
+        ValueError: If the specified backend is not available
     
     Example:
-        >>> tf.config.set_backend("cuda")  # Use GPU
+        >>> import loom
+        >>> loom.config.set_backend("auto")
+        'numba'  # If Numba installed
+        >>> loom.config.set_backend("cpu")
+        'cpu'  # Force pure Python
     """
     global DEFAULT_BACKEND
     
-    if backend == "cython" and not CYTHON_AVAILABLE:
-        raise ValueError("Cython backend not available. Install with: pip install loom[cython]")
-    if backend == "cuda" and not CUDA_AVAILABLE:
-        raise ValueError("CUDA backend not available. Install with: pip install loom[cuda]")
+    from loom.backend import (
+        get_backend_manager,
+        set_backend as _set_backend,
+        available_backends as _available_backends,
+    )
     
-    DEFAULT_BACKEND = backend
+    manager = get_backend_manager()
+    available = _available_backends()
+    
+    if backend == "auto":
+        # Priority order for auto-selection: numba → cpu
+        for preferred in ["numba", "cpu"]:
+            if preferred in available:
+                backend = preferred
+                break
+        else:
+            backend = "cpu"  # Fallback
+    
+    if backend not in available and backend != "cpu":
+        raise ValueError(
+            f"Backend '{backend}' is not available. "
+            f"Available backends: {available}. "
+            f"Install numba with: pip install numba"
+        )
+    
+    result = _set_backend(backend)
+    if result:
+        DEFAULT_BACKEND = backend
+        return backend
+    else:
+        # Fallback to CPU
+        DEFAULT_BACKEND = "cpu"
+        return "cpu"
 
 
 def get_backend() -> str:
-    """Return the current default backend."""
-    return DEFAULT_BACKEND
+    """
+    Return the current default backend name.
+    
+    Returns:
+        Name of the active backend (e.g., 'cpu', 'numba')
+    """
+    from loom.backend import get_backend as _get_backend
+    return _get_backend().name
+
+
+def get_backend_info() -> Dict[str, Any]:
+    """
+    Get information about the active backend.
+    
+    Returns:
+        Dictionary containing:
+            - name: Backend name
+            - available: Whether the backend is currently available
+            - all_available: List of all available backends
+    
+    Example:
+        >>> import loom
+        >>> loom.config.get_backend_info()
+        {'name': 'cpu', 'available': True, 'all_available': ['cpu', 'numba']}
+    """
+    from loom.backend import (
+        get_backend as _get_backend,
+        available_backends as _available_backends,
+    )
+    
+    backend = _get_backend()
+    return {
+        "name": backend.name,
+        "available": backend.is_available,
+        "all_available": _available_backends(),
+    }
+
+
+def list_backends() -> List[str]:
+    """
+    List all available backends on this system.
+    
+    Returns:
+        List of backend names that are available
+    
+    Example:
+        >>> import loom
+        >>> loom.config.list_backends()
+        ['cpu', 'numba']  # If Numba is installed
+    """
+    from loom.backend import available_backends as _available_backends
+    return _available_backends()
 
 
 def set_dtype(dtype: str) -> None:
