@@ -250,6 +250,12 @@ make format
 
 ---
 
+## NOTE
+
+**pure python** can be 10-100x slower than NumPy for most operations.
+
+---
+
 ## Testing
 
 ```bash
