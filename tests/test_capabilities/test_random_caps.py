@@ -76,7 +76,7 @@ class TestVeryEasyRandom:
     def test_ve_randint_range(self): t = tf.randint(0, 10, (100,)); assert t.min().item() >= 0 and t.max().item() < 10
     def test_ve_randint_shape(self): assert tf.randint(0, 5, (2, 2)).shape.dims == (2, 2)
     def test_ve_randint_dtype(self): assert "int" in tf.randint(0, 5, (1,)).dtype.value
-    def test_ve_randint_bool_range(self): t = tf.randint(0, 2, (10,)); assert ((t == 0) | (t == 1)).all()
+    def test_ve_randint_bool_range(self): t = tf.randint(0, 2, (10,)); assert all(v in [0, 1] for v in t.tolist())
     def test_ve_randint_scalar(self): assert tf.randint(0, 10).ndim == 0
     def test_ve_randint_high_default(self):
         # If low only provided, 0 to low

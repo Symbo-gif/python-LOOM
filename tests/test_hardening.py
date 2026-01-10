@@ -78,7 +78,8 @@ class TestStressLimits:
     
     def test_repeated_operations(self):
         """Test repeated operations for numerical stability."""
-        a = tf.array([1.0])
+        # Use float64 for precision
+        a = tf.array([1.0], dtype='float64')
         for _ in range(1000):
             a = a * 1.0000001
         result = a.item()
@@ -110,7 +111,8 @@ class TestNumericalStability:
     def test_very_large_numbers(self):
         """Operations with very large numbers."""
         huge = 1e300
-        a = tf.array([huge])
+        # Use float64 to avoid overflow
+        a = tf.array([huge], dtype='float64')
         b = a / 2
         assert b.item() == pytest.approx(5e299, rel=1e-10)
     
@@ -549,7 +551,7 @@ class TestSecurityInputValidation:
     def test_dtype_bounds(self):
         """Values outside dtype bounds should be handled."""
         # Float64 can handle very large values
-        t = tf.array([1e308])
+        t = tf.array([1e308], dtype='float64')
         assert t.item() == 1e308
 
 

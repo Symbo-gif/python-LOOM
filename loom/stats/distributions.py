@@ -43,10 +43,20 @@ def poisson_pmf(k: Union[Tensor, List, int], lam: float) -> Tensor:
     P(k) = (lam^k * exp(-lam)) / k!
     """
     from loom.special import loggamma
-    k = array(k)
+    k_arr = array(k)
+    
+    # Special case: lambda = 0
+    if lam == 0:
+        # P(k=0|lam=0) = 1, P(k>0|lam=0) = 0
+        k_list = k_arr.tolist() if hasattr(k_arr, 'tolist') else [k_arr.item()]
+        if not isinstance(k_list, list):
+            k_list = [k_list]
+        result = [1.0 if v == 0 else 0.0 for v in k_list]
+        return array(result).reshape(k_arr.shape.dims) if k_arr.ndim > 0 else array(result[0])
+    
     # Use log-space calculation for stability: k*log(lam) - lam - loggamma(k+1)
     lam_tensor = array(lam)
-    log_p = k * lam_tensor.log() - lam_tensor - loggamma(k + 1)
+    log_p = k_arr * lam_tensor.log() - lam_tensor - loggamma(k_arr + 1)
     return log_p.exp()
 
 def binomial_pmf(k: Union[Tensor, List, int], n: int, p: float) -> Tensor:

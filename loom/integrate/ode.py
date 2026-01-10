@@ -88,9 +88,10 @@ def _solve_rk4(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tenso
             y = array(y_data)
             
         ts.append(t)
-        ys.append(y_data)
+        ys.append(list(y_data))  # Convert NumericBuffer to list for consistency
         
-    # Transpose ys -> (Comp, Time)
+    # Transpose ys from (Time, Comp) to (Comp, Time) to match SciPy's format
+    # SciPy returns y with shape (n, t) where n=components, t=time points
     if not ys:
         y_transposed = []
     else:
@@ -130,7 +131,7 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
     y = array(y_data)
     
     ts = [t]
-    ys = [y_data]
+    ys = [list(y_data)]  # Convert to list for consistency
     
     while t < tf_:
         if t + h > tf_:
@@ -167,7 +168,7 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
             
             # Store all steps
             ts.append(t)
-            ys.append(y_data)
+            ys.append(list(y_data))  # Convert to list for consistency
             
             # Adjust step size
             if err > 0:
@@ -182,10 +183,6 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
     if t_eval is not None:
         # Linear interpolation for requested points
         ts_out = t_eval
-        ys_out = []
-        
-        # Convert ys to list of lists for easier access: ys[time][comp]
-        # Currently ys is list of NumericBuffers.
         
         # We need to find valid segments. Assumes t_eval is sorted.
         curr_idx = 0
@@ -213,35 +210,25 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
             else:
                  frac = (target_t - t_prev) / (t_next - t_prev)
             
-            # Interpolate each component
-            # y_prev is NumericBuffer, supports indexing
+            # Interpolate each component - y_prev/y_next are lists
             y_interp = []
             for k in range(len(y_prev)):
                 val = y_prev[k] + frac * (y_next[k] - y_prev[k])
                 y_interp.append(val)
             
-            # Wrap in NumericBuffer
-            # But creating NumericBuffer here might be circular import if not careful.
-            # However we imported array from core.tensor loops back. 
-            # Ideally return list of lists or NumericBuffers? 
-            # Existing code returns list of NumericBuffers.
-            # Let's just return list of floats for now, wrapped later?
-            # Or use explicit tensor creation?
-            # Creating a NumericBuffer from list is easy.
-            from loom.numeric.storage import NumericBuffer, DType
-            # Use same dtype as y_prev
-            interpolated_ys.append(NumericBuffer(y_interp, y_prev.dtype))
+            interpolated_ys.append(y_interp)
             
         ts = ts_out
         ys = interpolated_ys
 
-    # Transpose ys from (Time, Comp) to (Comp, Time)
-    # ys is list of iterables (NumericBuffer or list)
-    if not ys:
+    # Convert NumericBuffers to lists
+    ys_as_lists = [list(y) if hasattr(y, '__iter__') else [y] for y in ys]
+    
+    # Transpose from (Time, Comp) to (Comp, Time) to match SciPy's format
+    if not ys_as_lists:
         y_transposed = []
     else:
-        # Zip *ys handles proper transposition
-        y_transposed = list(map(list, zip(*ys)))
+        y_transposed = list(map(list, zip(*ys_as_lists)))
 
     return ODEResult(t=ts, y=y_transposed, success=True, message="Optimization terminated successfully.", t_events=None, y_events=None)
 

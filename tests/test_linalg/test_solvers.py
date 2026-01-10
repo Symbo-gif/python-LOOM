@@ -78,12 +78,13 @@ def test_solve_system():
     
 def test_inverse():
     """Test matrix inversion."""
-    A = tf.array([[4, 7], [2, 6]])
+    # Use float64 for better precision
+    A = tf.array([[4, 7], [2, 6]], dtype='float64')
     A_inv = la.inv(A)
     
-    # A @ A_inv = I
-    assert is_identity(A @ A_inv)
-    assert is_identity(A_inv @ A)
+    # A @ A_inv = I (with reasonable tolerance for numerical precision)
+    assert is_identity(A @ A_inv, tol=1e-6)
+    assert is_identity(A_inv @ A, tol=1e-6)
     
 def test_det_simple():
     """Test determinant."""

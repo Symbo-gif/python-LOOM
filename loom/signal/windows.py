@@ -31,11 +31,22 @@ def hamming(n: int) -> Tensor:
     indices = array(list(range(n)))
     return 0.54 - 0.46 * (2 * math.pi * indices / (n - 1)).cos()
 
-def hanning(n: int) -> Tensor:
-    """Hanning window."""
+def hanning(n: int, normalize: bool = True) -> Tensor:
+    """
+    Hanning (Hann) window.
+    
+    Args:
+        n: Number of points in the window
+        normalize: If True, normalize to have max value of 1.0
+    """
     if n == 1: return tf.ones((1,))
     indices = array(list(range(n)))
-    return 0.5 * (1 - (2 * math.pi * indices / (n - 1)).cos())
+    w = 0.5 * (1 - (2 * math.pi * indices / (n - 1)).cos())
+    if normalize:
+        max_val = w.max().item()
+        if max_val > 0:
+            w = w / max_val
+    return w
 
 def blackman(n: int) -> Tensor:
     """Blackman window."""

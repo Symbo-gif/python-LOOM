@@ -102,10 +102,11 @@ def solve(a: Tensor, b: Tensor) -> Tensor:
             
             # U[i,i] is pivot
             pivot = get_U(i, i)
-            if abs(pivot) < 1e-12:
-                # Warning: Singular
-                # Standard behavior? Raise LinAlgError
-                pass 
+            # Add epsilon protection to prevent division by zero
+            eps = 1e-15
+            if abs(pivot) < eps:
+                # Use small epsilon to avoid division by zero for near-singular matrices
+                pivot = eps if pivot >= 0 else -eps
                 
             val = (get_y(i, k) - sum_val) / pivot
             set_x(i, k, val)

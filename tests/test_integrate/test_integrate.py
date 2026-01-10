@@ -24,11 +24,12 @@ def test_quadrature():
     
     res_trap = trapezoid(y, x)
     # Trapezoid is slightly over-estimating for convex x^2
-    assert abs(res_trap - 1/3) < 0.01
+    # Use .item() to convert Tensor to float for comparison
+    assert abs(res_trap.item() - 1/3) < 0.01
     
     res_simp = simpson(y, dx=0.1)
     # Simpson is exact for polynomials up to degree 3
-    assert abs(res_simp - 1/3) < 1e-12
+    assert abs(res_simp.item() - 1/3) < 1e-12
 
 def test_ode_linear():
     # dy/dt = -y, y(0) = 1 => y(t) = exp(-t)
@@ -37,8 +38,8 @@ def test_ode_linear():
         
     sol = solve_ivp(f, (0, 5), [1.0], method='RK45')
     assert sol.success
-    # Check final point
-    assert abs(sol.y[-1][0] - math.exp(-5)) < 1e-4
+    # Check final point - sol.y has shape (n_components, n_times)
+    assert abs(sol.y[0][-1] - math.exp(-5)) < 1e-4
 
 def test_ode_oscillator():
     # Harmonic oscillator: y'' + y = 0
@@ -52,9 +53,9 @@ def test_ode_oscillator():
     sol = solve_ivp(f, (0, 2*math.pi), y0, method='RK45')
     
     # After one period, should be back at around [1, 0]
-    last_y = sol.y[-1]
-    assert abs(last_y[0] - 1.0) < 5e-3
-    assert abs(last_y[1] - 0.0) < 5e-3
+    # sol.y[0][-1] is y1 at final time, sol.y[1][-1] is y2 at final time
+    assert abs(sol.y[0][-1] - 1.0) < 5e-3
+    assert abs(sol.y[1][-1] - 0.0) < 5e-3
 
 def test_ode_stress():
     # Test high frequency or long term stability
@@ -65,5 +66,5 @@ def test_ode_stress():
     assert sol.success
     # Integral of cos(t) is sin(t)
     # sin(100)
-    assert abs(sol.y[-1][0] - math.sin(100)) < 1e-2
+    assert abs(sol.y[0][-1] - math.sin(100)) < 1e-2
 

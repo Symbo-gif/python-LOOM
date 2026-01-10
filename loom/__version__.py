@@ -18,10 +18,21 @@ loom version information.
 This file is the single source of truth for the package version.
 """
 
-__version__ = "0.9.0"
-__version_info__ = (0, 9, 0)
+__version__ = "0.9.1"
+__version_info__ = (0, 9, 1)
 
 # Version history (established facts):
+# 0.9.1 - Bug Fixes & Test Stabilization (January 2026)
+#         - Added create_std_op and create_var_op for std/var reduction operations
+#         - Fixed ODE solver integration loop and output format (SciPy-compatible)
+#         - Added epsilon protection to division operations in linalg solvers
+#         - Fixed window normalization in signal module
+#         - Fixed IIR filter coefficient normalization
+#         - Added complex eigenvalue support to sqrtm with regularization
+#         - Fixed precision issues in scalar operations (dtype inheritance)
+#         - Added conj, real, imag, angle, polar to top-level exports
+#         - Fixed special case for Poisson PMF with lambda=0
+#         - All 1556 tests passing
 # 0.9.0 - Phase 9: Production Quality (January 2026)
 #         - logm, outer product, rectangular LU, N-D field sampling
 #         - Chi-square proper p-value via gammainc

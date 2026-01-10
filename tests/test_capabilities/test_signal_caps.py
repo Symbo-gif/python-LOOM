@@ -394,9 +394,9 @@ class TestEasySignal:
         assert h.tolist() == [1.0, 1.0, 0.0, 0.0]
     def test_e_lfilter_step_response(self):
         b = [0.1]; a = [1, -0.9]
-        x = tf.ones((20,))
+        x = tf.ones((50,))  # Increase samples for better convergence
         y = signal.lfilter(b, a, x)
-        # Should approach 1.0
+        # Should approach 1.0 (step response of first-order IIR)
         assert 0.9 < y[-1].item() < 1.1
     def test_e_filtfilt_zero_phase_check(self):
         b = [1, 1]; a = [1]

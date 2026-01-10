@@ -35,8 +35,9 @@ def lfilter(b: Union[Tensor, List], a: Union[Tensor, List], x: Union[Tensor, Lis
     
     # Normalize if a[0] != 1
     if a[0] != 1.0:
-        a = [val / a[0] for val in a]
-        b = [val / a[0] for val in b]
+        a0 = a[0]  # Store original a[0] before normalization
+        b = [val / a0 for val in b]  # Use original a[0]
+        a = [val / a0 for val in a]  # Normalize a
         
     n = len(x)
     nb = len(b)
