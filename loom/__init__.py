@@ -67,11 +67,14 @@ from loom.random import (
     seed, rand, randn, randint, uniform, normal, exponential, poisson, choice, permutation
 )
 
-# Config and errors
+# Config, logging, and errors
 from loom import config
+from loom import logging
 from loom.errors import (
-    loomError, ShapeError, DTypeError, ComputationError,
-    SymbolicError, OptimizationError, IntegrationError, BackendError
+    loomError, LoomError, ShapeError, DTypeError, ComputationError,
+    SymbolicError, OptimizationError, IntegrationError, BackendError,
+    NumericalError, SingularMatrixError, ConvergenceError,
+    TaskError, RecipeError, CacheError, CUDAError
 )
 
 __all__ = [
@@ -109,10 +112,12 @@ __all__ = [
     "poisson",
     "choice",
     "permutation",
-    # Configuration
+    # Configuration and Logging
     "config",
+    "logging",
     # Errors
     "loomError",
+    "LoomError",
     "ShapeError",
     "DTypeError",
     "ComputationError",
@@ -120,4 +125,11 @@ __all__ = [
     "OptimizationError",
     "IntegrationError",
     "BackendError",
+    "NumericalError",
+    "SingularMatrixError",
+    "ConvergenceError",
+    "TaskError",
+    "RecipeError",
+    "CacheError",
+    "CUDAError",
 ]
