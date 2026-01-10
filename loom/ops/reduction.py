@@ -448,3 +448,159 @@ def create_argmax_op(axis=None) -> ArgMaxOp:
 def create_argmin_op(axis=None) -> ArgMinOp:
     return ArgMinOp(axis=axis)
 
+
+class StdOp(ReductionOp):
+    """Standard deviation reduction: std(a, axis=axis)"""
+    
+    def __init__(self, axis=None, ddof: int = 0, keepdims: bool = False):
+        """
+        Initialize std operation.
+        
+        Args:
+            axis: Axis or axes to reduce. None = reduce all.
+            ddof: Delta degrees of freedom (0 for population std, 1 for sample std).
+            keepdims: If True, reduced axes are kept with size 1.
+        """
+        super().__init__(axis=axis, keepdims=keepdims)
+        self.ddof = ddof
+    
+    @property
+    def name(self) -> str:
+        return "std"
+    
+    def execute(self, a) -> List:
+        import math
+        data = self._get_data(a)
+        shape = a.shape if hasattr(a, 'shape') else Shape(())
+        ndim = shape.ndim
+        
+        if ndim == 0:
+            return [0.0]
+        
+        axes = self._normalize_axis(self.axis, ndim)
+        
+        # Compute count of elements being averaged
+        count = 1
+        for ax in axes:
+            count *= shape.dims[ax]
+        
+        # Compute mean first
+        mean_op = MeanOp(axis=self.axis, keepdims=False)
+        mean_data = mean_op.execute(a)
+        
+        # For std, we need to compute sqrt(mean((x - mean)^2))
+        # This is tricky with multiple axes. Use variance approach.
+        # Variance = E[X^2] - E[X]^2
+        
+        # Compute sum of squares
+        sum_sq_data = []
+        for val in data:
+            sum_sq_data.append(val * val)
+        
+        # Create a temporary structure to compute sum of squares
+        # We'll manually reduce
+        current_data = sum_sq_data
+        current_shape = shape
+        
+        for ax in sorted(axes, reverse=True):
+            current_data, current_shape = self._reduce_axis(
+                current_data, current_shape, ax, sum
+            )
+        
+        # mean of squares
+        mean_sq = [x / count for x in current_data]
+        
+        # variance = mean_sq - mean^2
+        # Then std = sqrt(variance * count / (count - ddof)) if ddof adjustment needed
+        result = []
+        for i, msq in enumerate(mean_sq):
+            m = mean_data[i] if i < len(mean_data) else mean_data[0]
+            var = msq - m * m
+            # Adjust for ddof
+            if self.ddof > 0 and count > self.ddof:
+                var = var * count / (count - self.ddof)
+            # Ensure non-negative (floating point errors can make it slightly negative)
+            if var < 0:
+                var = 0.0
+            result.append(math.sqrt(var))
+        
+        return result
+
+
+class VarOp(ReductionOp):
+    """Variance reduction: var(a, axis=axis)"""
+    
+    def __init__(self, axis=None, ddof: int = 0, keepdims: bool = False):
+        """
+        Initialize var operation.
+        
+        Args:
+            axis: Axis or axes to reduce. None = reduce all.
+            ddof: Delta degrees of freedom (0 for population var, 1 for sample var).
+            keepdims: If True, reduced axes are kept with size 1.
+        """
+        super().__init__(axis=axis, keepdims=keepdims)
+        self.ddof = ddof
+    
+    @property
+    def name(self) -> str:
+        return "var"
+    
+    def execute(self, a) -> List:
+        data = self._get_data(a)
+        shape = a.shape if hasattr(a, 'shape') else Shape(())
+        ndim = shape.ndim
+        
+        if ndim == 0:
+            return [0.0]
+        
+        axes = self._normalize_axis(self.axis, ndim)
+        
+        # Compute count of elements being averaged
+        count = 1
+        for ax in axes:
+            count *= shape.dims[ax]
+        
+        # Compute mean first
+        mean_op = MeanOp(axis=self.axis, keepdims=False)
+        mean_data = mean_op.execute(a)
+        
+        # Variance = E[X^2] - E[X]^2
+        
+        # Compute sum of squares
+        sum_sq_data = [val * val for val in data]
+        
+        current_data = sum_sq_data
+        current_shape = shape
+        
+        for ax in sorted(axes, reverse=True):
+            current_data, current_shape = self._reduce_axis(
+                current_data, current_shape, ax, sum
+            )
+        
+        # mean of squares
+        mean_sq = [x / count for x in current_data]
+        
+        # variance = mean_sq - mean^2
+        result = []
+        for i, msq in enumerate(mean_sq):
+            m = mean_data[i] if i < len(mean_data) else mean_data[0]
+            var = msq - m * m
+            # Adjust for ddof
+            if self.ddof > 0 and count > self.ddof:
+                var = var * count / (count - self.ddof)
+            # Ensure non-negative
+            if var < 0:
+                var = 0.0
+            result.append(var)
+        
+        return result
+
+
+def create_std_op(axis=None, ddof: int = 0, keepdims: bool = False) -> StdOp:
+    return StdOp(axis=axis, ddof=ddof, keepdims=keepdims)
+
+
+def create_var_op(axis=None, ddof: int = 0, keepdims: bool = False) -> VarOp:
+    return VarOp(axis=axis, ddof=ddof, keepdims=keepdims)
+

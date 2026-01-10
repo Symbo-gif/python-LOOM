@@ -24,11 +24,12 @@ def test_quadrature():
     
     res_trap = trapezoid(y, x)
     # Trapezoid is slightly over-estimating for convex x^2
-    assert abs(res_trap - 1/3) < 0.01
+    # Use .item() to convert Tensor to float for comparison
+    assert abs(res_trap.item() - 1/3) < 0.01
     
     res_simp = simpson(y, dx=0.1)
     # Simpson is exact for polynomials up to degree 3
-    assert abs(res_simp - 1/3) < 1e-12
+    assert abs(res_simp.item() - 1/3) < 1e-12
 
 def test_ode_linear():
     # dy/dt = -y, y(0) = 1 => y(t) = exp(-t)

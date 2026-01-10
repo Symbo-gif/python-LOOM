@@ -88,15 +88,11 @@ def _solve_rk4(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tenso
             y = array(y_data)
             
         ts.append(t)
-        ys.append(y_data)
+        ys.append(list(y_data))  # Convert NumericBuffer to list for consistency
         
-    # Transpose ys -> (Comp, Time)
-    if not ys:
-        y_transposed = []
-    else:
-        y_transposed = list(map(list, zip(*ys)))
-        
-    return ODEResult(t=ts, y=y_transposed, success=True, message="Optimization terminated successfully.", t_events=None, y_events=None)
+    # ys is already in (Time, Comp) format: ys[time_idx] = [comp_0, comp_1, ...]
+    # This matches the expected format: sol.y[time_idx][comp_idx]
+    return ODEResult(t=ts, y=ys, success=True, message="Optimization terminated successfully.", t_events=None, y_events=None)
 
 def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tensor], 
                 t_eval: Optional[List[float]] = None) -> ODEResult:
@@ -130,7 +126,7 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
     y = array(y_data)
     
     ts = [t]
-    ys = [y_data]
+    ys = [list(y_data)]  # Convert to list for consistency
     
     while t < tf_:
         if t + h > tf_:
@@ -167,7 +163,7 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
             
             # Store all steps
             ts.append(t)
-            ys.append(y_data)
+            ys.append(list(y_data))  # Convert to list for consistency
             
             # Adjust step size
             if err > 0:
@@ -235,13 +231,9 @@ def _solve_rk45(fun: Callable, t_span: Tuple[float, float], y0: Union[List, Tens
         ts = ts_out
         ys = interpolated_ys
 
-    # Transpose ys from (Time, Comp) to (Comp, Time)
-    # ys is list of iterables (NumericBuffer or list)
-    if not ys:
-        y_transposed = []
-    else:
-        # Zip *ys handles proper transposition
-        y_transposed = list(map(list, zip(*ys)))
+    # ys is already in (Time, Comp) format: ys[time_idx] = [comp_0, comp_1, ...]
+    # Convert NumericBuffers to lists for consistency
+    ys_as_lists = [list(y) if hasattr(y, '__iter__') else [y] for y in ys]
 
-    return ODEResult(t=ts, y=y_transposed, success=True, message="Optimization terminated successfully.", t_events=None, y_events=None)
+    return ODEResult(t=ts, y=ys_as_lists, success=True, message="Optimization terminated successfully.", t_events=None, y_events=None)
 

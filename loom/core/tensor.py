@@ -557,10 +557,11 @@ class Tensor:
         return Tensor(symbolic_expr=res, dtype=DType.SYMBOLIC)
 
     def _ensure_tensor(self, other) -> 'Tensor':
-        """Convert scalar to tensor if needed."""
+        """Convert scalar to tensor if needed, inheriting dtype from self."""
         if isinstance(other, Tensor):
             return other
-        return Tensor(other)
+        # For scalars, use the same dtype as self to preserve precision
+        return Tensor(other, dtype=self.dtype)
     
     # =========================================================================
     # INDEXING - PHASE 1 WEEK 7 IMPLEMENTED
