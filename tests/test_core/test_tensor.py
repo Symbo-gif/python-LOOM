@@ -54,9 +54,9 @@ class TestTensorCreation:
         assert t.shape == Shape((2, 2))
     
     def test_tensor_dtype_default(self):
-        """Default dtype is float64."""
+        """Default dtype is float32 for memory efficiency."""
         t = Tensor([1, 2, 3])
-        assert t.dtype == DType.FLOAT64
+        assert t.dtype == DType.FLOAT32
     
     def test_tensor_dtype_explicit(self):
         """Explicit dtype setting."""

@@ -459,8 +459,9 @@ class TestEdgeCases:
     
     def test_small_values(self):
         """Operations with small values."""
-        a = Tensor([1e-10])
-        b = Tensor([1e-10])
+        # Use float64 for precision with small values
+        a = Tensor([1e-10], dtype='float64')
+        b = Tensor([1e-10], dtype='float64')
         c = a + b
         assert abs(c.compute()[0] - 2e-10) < 1e-19
     
