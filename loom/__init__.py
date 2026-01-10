@@ -59,6 +59,9 @@ from loom.core.tensor import Tensor, Symbol, array, zeros, ones, full, eye
 from loom.core.shape import Shape, broadcast_shapes
 from loom.core.dtype import DType, parse_dtype
 
+# Complex number operations (top-level convenience functions)
+from loom.ops.complex_ops import conj, real, imag, angle, polar
+
 # Random number generation (top-level convenience functions)
 from loom.random import (
     seed, rand, randn, randint, uniform, normal, exponential, poisson, choice, permutation
@@ -89,6 +92,12 @@ __all__ = [
     # Shape utilities
     "broadcast_shapes",
     "parse_dtype",
+    # Complex operations
+    "conj",
+    "real",
+    "imag",
+    "angle",
+    "polar",
     # Random (top-level convenience)
     "seed",
     "rand",
