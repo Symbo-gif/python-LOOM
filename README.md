@@ -270,7 +270,7 @@ pytest tests/test_linalg/ -v
 pytest tests/ --cov=loom --cov-report=html
 ```
 
-**Current Status**: 1500+ tests passing
+**Current Status**: 1556 tests passing
 
 ---
 
