@@ -79,3 +79,4 @@ Thumbs.db
 # Project specific
 *.tfdata
 benchmark_results.json
+backend_validation_report.json

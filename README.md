@@ -4,6 +4,8 @@
 
 LOOM is a zero-dependency mathematical computing library designed as a unified replacement for NumPy, SymPy, and SciPy. Written entirely in pure Python, it provides tensor operations, symbolic mathematics, scientific computing algorithms, and an agent-based computation system—all in a single package.
 
+[![Test Backends](https://github.com/Symbo-gif/python-LOOM/actions/workflows/test-backends.yml/badge.svg)](https://github.com/Symbo-gif/python-LOOM/actions/workflows/test-backends.yml)
+[![codecov](https://codecov.io/gh/Symbo-gif/python-LOOM/branch/main/graph/badge.svg)](https://codecov.io/gh/Symbo-gif/python-LOOM)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://python.org)
 
