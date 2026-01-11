@@ -20,6 +20,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# Limit permissions for security
+permissions:
+  contents: read
+
 jobs:
   test-python-backend:
     name: Test Pure Python Backend
@@ -168,11 +172,18 @@ jobs:
       run: |
         python << 'EOF'
         import json
-        with open('benchmark_results.json') as f:
-            data = json.load(f)
-        print('Benchmark Summary:')
-        for bench in data['benchmarks']:
-            print(f"  {bench['name']}: {bench.get('speedups', {})}")
+        import os
+        if not os.path.exists('benchmark_results.json'):
+            print('Benchmark results file not found')
+            exit(0)
+        try:
+            with open('benchmark_results.json') as f:
+                data = json.load(f)
+            print('Benchmark Summary:')
+            for bench in data.get('benchmarks', []):
+                print(f"  {bench.get('name', 'unknown')}: {bench.get('speedups', {})}")
+        except (json.JSONDecodeError, KeyError) as e:
+            print(f'Error reading benchmark results: {e}')
         EOF
 
   compatibility:

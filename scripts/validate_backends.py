@@ -26,6 +26,10 @@ from datetime import datetime
 from typing import Dict, Any, List, Tuple
 
 
+# Default backend name used as baseline for comparison
+DEFAULT_BACKEND = 'cpu'
+
+
 def run_validation() -> Dict[str, Any]:
     """
     Run validation tests to ensure backend equivalence.
@@ -48,7 +52,7 @@ def run_validation() -> Dict[str, Any]:
     try:
         available = loom.backend.available_backends()
     except Exception:
-        available = ['cpu']
+        available = [DEFAULT_BACKEND]
     
     results['backends_tested'] = available
     
@@ -91,7 +95,7 @@ def run_validation() -> Dict[str, Any]:
         results['skipped'] = len(test_cases)
         for name, func, tol in test_cases:
             try:
-                loom.set_backend('cpu')
+                loom.set_backend(DEFAULT_BACKEND)
                 _ = func()
                 results['tests'].append({
                     'name': name,
@@ -117,16 +121,16 @@ def run_validation() -> Dict[str, Any]:
         
         try:
             # Get baseline from CPU backend
-            loom.set_backend('cpu')
+            loom.set_backend(DEFAULT_BACKEND)
             baseline = func()
             baseline_data = baseline.tolist() if hasattr(baseline, 'tolist') else baseline
-            test_result['backend_results']['cpu'] = baseline_data
+            test_result['backend_results'][DEFAULT_BACKEND] = baseline_data
             
             all_match = True
             
             # Compare with other backends
             for backend in available:
-                if backend == 'cpu':
+                if backend == DEFAULT_BACKEND:
                     continue
                 
                 try:
@@ -138,7 +142,7 @@ def run_validation() -> Dict[str, Any]:
                     # Check equivalence
                     if not _compare_results(baseline_data, result_data, tol):
                         all_match = False
-                        test_result['mismatch'] = f'{backend} differs from cpu'
+                        test_result['mismatch'] = f'{backend} differs from {DEFAULT_BACKEND}'
                 except Exception as e:
                     test_result['backend_results'][backend] = f'Error: {e}'
                     all_match = False
@@ -158,7 +162,7 @@ def run_validation() -> Dict[str, Any]:
         results['tests'].append(test_result)
     
     # Reset to default backend
-    loom.set_backend('cpu')
+    loom.set_backend(DEFAULT_BACKEND)
     
     return results
 
