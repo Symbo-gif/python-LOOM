@@ -43,6 +43,7 @@ classifiers = [
 keywords = ["tensor", "numpy", "sympy", "scipy", "scientific-computing", "symbolic-math"]
 
 [project.optional-dependencies]
+numba = ["numba>=0.57.0"]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
@@ -52,6 +53,9 @@ dev = [
 ]
 cython = ["cython>=0.29"]
 cuda = ["cuda-python>=11.0"]
+performance = ["numba>=0.57.0"]
+test = ["pytest>=7.0", "pytest-cov>=4.0"]
+all = ["numba>=0.57.0", "pytest>=7.0", "pytest-cov>=4.0", "black>=23.0", "mypy>=1.0", "sphinx>=5.0", "cython>=0.29"]
 
 [project.urls]
 Homepage = "https://github.com/Symbo-gif/python-LOOM"
