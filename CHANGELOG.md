@@ -77,7 +77,11 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.9.1] - 2026-01-XX
+## Historical Releases
+
+*Note: Exact release dates for historical versions are approximate. All releases occurred during January 2026.*
+
+## [0.9.1] - 2026-01
 
 ### Bug Fixes & Test Stabilization
 
@@ -94,7 +98,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.9.0] - 2026-01-XX
+## [0.9.0] - 2026-01
 
 ### Phase 9: Production Quality
 
@@ -105,7 +109,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.8.0] - 2026-01-XX
+## [0.8.0] - 2026-01
 
 ### Phase 8: Numeric Optimization & Full Parity
 
@@ -114,7 +118,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.7.0] - 2026-01-XX
+## [0.7.0] - 2026-01
 
 ### Phase 7: Field Tensors & Agent Orchestration
 
@@ -123,7 +127,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.6.0] - 2026-01-XX
+## [0.6.0] - 2026-01
 
 ### Phase 6: Sparse & Spatial Algorithms
 
@@ -132,7 +136,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.5.0] - 2026-01-XX
+## [0.5.0] - 2026-01
 
 ### Phase 5: Signal & Special Functions
 
@@ -141,7 +145,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.4.0] - 2026-01-XX
+## [0.4.0] - 2026-01
 
 ### Phase 4: Optimization & Integration
 
@@ -150,7 +154,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.3.0] - 2026-01-XX
+## [0.3.0] - 2026-01
 
 ### Phase 3: Symbolic Core
 
@@ -158,7 +162,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.2.0] - 2026-01-XX
+## [0.2.0] - 2026-01
 
 ### Phase 2: Linear Algebra
 
@@ -166,7 +170,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.1.0] - 2026-01-XX
+## [0.1.0] - 2026-01
 
 ### Phase 1: Core Tensors
 
@@ -174,7 +178,7 @@ pip install loom[numba]==1.1.0
 
 ---
 
-## [0.0.1] - 2026-01-XX
+## [0.0.1] - 2026-01
 
 ### Initial Release
 
