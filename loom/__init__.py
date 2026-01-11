@@ -95,9 +95,10 @@ def matmul(x1, x2):
     
     return x1 @ x2
 
-# Config, logging, and errors
+# Config, logging, errors, and backend
 from loom import config
 from loom import logging
+from loom import backend
 from loom.config import set_backend, get_backend_info
 from loom.errors import (
     loomError, LoomError, ShapeError, DTypeError, ComputationError,
@@ -145,6 +146,7 @@ __all__ = [
     # Configuration and Logging
     "config",
     "logging",
+    "backend",
     "set_backend",
     "get_backend_info",
     # Errors
